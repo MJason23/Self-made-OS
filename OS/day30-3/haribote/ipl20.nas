@@ -1,0 +1,124 @@
+ï»¿;Õâ¸öÎÄ¼þµÄÖ÷Òª¹¤×÷¾ÍÊÇ£ºÒýµ¼£¡£¡Ê×ÏÈBIOS°Ñ0ÖùÃæ0´ÅÍ·1ÉÈÇøµÄÄÚÈÝ¶Áµ½ÄÚ´æÖÐ£¬¶øÕâ¸öÉÈÇøÐ´ÁËÈçºÎ¼ÓÔØºóÐøÉÈÇøµÄ´úÂë£¡£¡£¨°Ñ×°ÓÐ²Ù×÷ÏµÍ³³ÌÐò´ÓÈíÅÌ»òÕßÓ²ÅÌÖÐ¶ÁÈ¡µ½
+;ÄÚ´æÖÐµÄÌØ¶¨Î»ÖÃ£¬È»ºó°ÑCPUÉèÖÃµ½³ÌÐòÔÚÄÚ´æÖÐµÄÆðÊ¼Î»ÖÃ£¬ÕâÑù¾Í¿ÉÒÔÕýÊ½¿ªÊ¼ÔËÐÐ²Ù×÷ÏµÍ³ÁË£©¼Ç×¡ÁË£¬Õâ¸öÎÄ¼þÕû¸ö¶¼±£´æÔÚÈíÅÌµÄµÚÒ»ÉÈÇøÖÐ£¡£¡×Ü¹²´úÂëÖ»ÓÐ512×Ö½Ú
+
+; haribote-ipl
+; TAB=4
+
+;Õâ´ÎÖ»ÊÇ×öÁË¶ÁÈ¡¶à¸öºóÐøÈíÅÌ¶à¸öÉÈÇøµÄÄÚÈÝµ½ÄÚ´æÖÐ£¬ÎªÒÔºó×öÍêÕû²Ù×÷ÏµÍ³µÄÒýµ¼´òÏÂ»ù´¡£¬ËäÈ»£¬ÎÒÃÇ²¢Ã»ÓÐÔÚºóÃæµÄÈíÅÌÉÏÐ´Ê²Ã´ÄÚÈÝ£¬Ò²¾ÍÊÇËµµ±Ç°¶Áµ½ÄÚ´æÖÐµÄ¶¼ÊÇÐ©À¬»ø
+;µ«ÊÇÕâÊÇ±ØÒªµÄ¹ý³Ì£¡£¡Õâ´ÎµÄ³É¹ûÏÔÊ¾ÓëÉÏ´ÎÊÇÒ»ÑùµÄ¡£
+
+CYLS	EQU		20				;±íÊ¾¶ÁÈ¡¶þÊ®¸öÖùÃæµÄÐÅÏ¢
+
+		ORG		0x7c00			; Ö¸Ã÷³ÌÐòµÄ×°ÔØµØÖ·
+
+; ÒÔÏÂÕâ¶Î´úÂëÊÇ±ê×¼FAT12¸ñÊ½ÈíÅÌ×¨ÓÃµÄ´úÂë
+
+		JMP		entry
+		DB		0x90
+		DB		"Haribote"		; Æô¶¯ÇøµÄÃû³Æ¿ÉÒÔÊÇÈÎÒâµÄ×Ö·û´®£¨8×Ö½Ú£©
+		DW		512				; Ã¿¸öÉÈÇø£¨sector£©µÄ´óÐ¡£¨±ØÐëÎª512×Ö½Ú£©
+		DB		1				; ´Ø£¨cluster£©µÄ´óÐ¡£¨±ØÐëÎª1¸öÉÈÇø£©
+		DW		1				; FATµÄÆðÊ¼Î»ÖÃ£¨Ò»°ã´ÓµÚÒ»¸öÉÈÇø¿ªÊ¼£©
+		DB		2				; FATµÄ¸öÊý£¨±ØÐëÎª2£©
+		DW		224				; ¸ùÄ¿Â¼µÄ´óÐ¡£¨Ò»°ãÉè³É224Ïî£©
+		DW		2880			; ¸Ã´ÅÅÌµÄ´óÐ¡£¨±ØÐëÊÇ2880ÉÈÇø£¬ÒòÎªÓÐÉÏÏÂÁ½Ãæ£¬Ã¿¸öÉÈÇø¶¼ÊÇ512×Ö½Ú£¬ÕýºÃ1.44M£©
+		DB		0xf0			; ´ÅÅÌµÄÖÖÀà£¨±ØÐëÊÇ0xf0£¬²ÂÏëÕâÊÇÈíÅÌµÄ¸ñÊ½´úÂë£¬ÐèÒªÉÏÍø²éÖ¤£©
+		DW		9				; FATµÄ³¤¶È£¨±ØÐëÊÇ9ÉÈÇø£©
+		DW		18				; 1¸ö´ÅµÀ£¨track£©ÓÐ¼¸¸öÉÈÇø£¨±ØÐëÊÇ18£©
+		DW		2				; ´ÅÍ·Êý£¨±ØÐëÊÇ2£©
+		DD		0				; ²»ÓÃ·ÖÇø£¬±ØÐëÊÇ0
+		DD		2880			; ÖØÐ´Ò»´Î´ÅÅÌ´óÐ¡
+		DB		0,0,0x29		; ÒâÒå²»Ã÷£¬¹Ì¶¨
+		DD		0xffffffff		; £¨¿ÉÄÜÊÇ£©¾í±êºÅÂë
+		DB		"HariboteOS "	; ´ÅÅÌµÄÃû³Æ£¨11×Ö½Ú£¬²»¹»µÄ»°ÐèÒª²¹¿Õ¸ñ£©
+		DB		"FAT12   "		; ´ÅÅÌ¸ñÊ½Ãû³Æ£¨8×Ö½Ú£©
+		RESB	18				; ÏÈ¿Õ³ö18×Ö½Ú
+
+; ³ÌÐòºËÐÄ£¬Í¨¹ý³õÊ¼»¯¼Ä´æÆ÷£¬È»ºóÓÃSI¼Ä´æÆ÷²»Í£µØÔö¼Ó£¬È»ºó°Ñmsg¶ÎµÄÐÅÏ¢ÓÃputloopÀïÉè¶¨ºÃµÄ¸ñÊ½ÏÔÊ¾µ½ÆÁÄ»ÉÏ
+
+entry:
+		MOV		AX,0			; ³õÊ¼»¯¼Ä´æÆ÷
+		MOV		SS,AX
+		MOV		SP,0x7c00
+		MOV		DS,AX
+		
+;day3Ìí¼ÓµÄ´úÂë
+
+		MOV		AX,0x0820		;Òª°Ñ³ÌÐò¼ÓÔØµ½Õâ¸öÄÚ´æÎ»ÖÃ£¬½ö½öÊÇÒòÎªÕâ¿é¶ùÇøÓòÃ»ÈËÓÃ¶øÒÑ£¬Ã»Ê²Ã´ÌØ±ðº¬Òå
+		MOV		ES,AX
+		MOV 	CH,0			;ÖùÃæ0
+		MOV 	DH,0			;´ÅÍ·0
+		MOV 	CL,2			;ÉÈÇø2
+		
+readloop:
+		MOV  	SI,0 			;¼ÇÂ¼Ê§°Ü´ÎÊýµÄ¼Ä´æÆ÷£¨ÒòÎªÈíÅÌºÜ²»¿É¿¿£¬ÈÝÒ×¶ÁÈ¡Ê§°Ü£¬ËùÒÔÉè¼Æ³É×Ô¶¯ÖØ¸´Æô¶¯£©
+		
+		
+;Èç¹û¼ÓÔØÊ§°Ü£¬Ôò»¹ÒªÖØÐÂ¼ÓÔØÏµÍ³£¬ËùÒÔ¼ÓÔØµÄÕâÒ»²¿·Ö³ÉÎªÁË¶ÀÁ¢µÄÒ»¶Î
+retry:
+		MOV 	AH,0x02			;AH=0x02£º¶ÁÅÌ
+		MOV 	AL,1			;1¸öÉÈÇø
+		MOV 	BX,0
+		MOV 	DL,0x00			;AÇý¶¯Æ÷
+		INT 	0x13			;µ÷ÓÃ´ÅÅÌBIOS£¬Ç°ÃæµÄÕâÐ©ÉèÖÃ½ö½öÊÇÎªÁË½øÈëÖÐ¶ÏÇ°µÄ×¼±¸£¬Ã¿¸ö¼Ä´æÆ÷ÔÚÖÕ¶Ë³ÌÐòÖÐ¶¼¶ÔÓ¦×ÅÌØÊâº¬Òå£¬¾ßÌå¿É²é¿´Êé±¾P46
+		JNC		next			;Ã»³ö´íµÄ»°Ö±½ÓÌø×ªµ½next¶Î
+		ADD		SI,1			;³ö´íµÄ»°£¬ÏÈ¶ÔSI¼Ó1£¬±íÊ¾³ö´í´ÎÊý¼Ó1
+		CMP		SI,5			;·¢Éú´íÎóµÄ´ÎÊý³¬¹ý5´Î¾Í²»ÔÚ¼ÌÐø¼ÓÔØÁË£¬Ö±½ÓÌø×ªµ½error¶Î£¬½øÐÐ´íÎóÏÔÊ¾
+		JAE		error			;±È½Ï½á¹û£¬Èç¹û´óÓÚ5¾ÍÌø×ªµ½error¶Î
+		MOV		AH,0x00			;µ±AH=0µÄÊ±ºò´ú±í¸´Î»´ÅÅÌÏµÍ³
+		MOV		DL,0x00			;AÇý¶¯Æ÷
+		INT 	0x13			;ÖØÖÃÇý¶¯Æ÷£¨ÕâÀïµÄÖÐ¶ÏÖ»ÊÇÖØÖÃÇý¶¯Æ÷£¬²»ÊÇÖØÔØ£¬¿´Çå³þ¼Ä´æÆ÷µÄÖµÁË£¬²»ÊÇÎªÁË¶ÁÈ¡´ÅÅÌ¶øÉèÖÃµÄÊýÖµ£©
+		JMP		retry			;ÖØÖÃÇý¶¯Æ÷ºóÌø»Øµ½retry¶Î£¬ÖØÐÂ¿ªÊ¼¼ÓÔØ
+		
+		
+;´ÓnextÕâÒ»¶Î¿ªÊ¼¶ÁÈ¡´ÓµÚÈý¸öÉÈÇøµ½µÚ10¸öÖùÃæµÄ×îºóÒ»¸öÉÈÇø
+next:
+		MOV		AX,ES			;°ÑÄÚ´æµØÖ·ºóÒÆ0x200£¨ÆäÊµ¾ÍÊÇ512¸ö×Ö½Ú£¬¼´Ò»¸öÉÈÇøµÄ´óÐ¡£©
+		ADD		AX,0x0020
+		MOV		ES,AX			;ÒòÎª²»ÄÜÖ±½Ó¶ÔES¼Ä´æÆ÷½øÐÐADD²Ù×÷£¬ËùÒÔÐèÒªÓÃAX¼Ä´æÆ÷À´×öÖÐ½é
+		ADD		CL,1			;Òª¶Ôµ±Ç°ÖùÃæµÄÏÂÒ»¸öÉÈÇø¼ÌÐø¶ÁÈ¡£¬ËùÒÔCLÐèÒª¼Ó1
+		CMP		CL,18			;ÒòÎªÒ»¸öÖùÃæÓÐ18¸öÉÈÇø£¬ËùÒÔÐèÒªÓë18½øÐÐ±È½Ï
+		JBE		readloop		;Èç¹û±È½Ï½á¹û·¢ÏÖ±È18Ð¡»òÕßµÈÓÚ£¬ÔòËµÃ÷Õâ¸öÖùÃæµÄÉÈÇø»¹Ã»ÓÐ¶ÁÈ¡Íê£¬Èç¹û¶ÁÈ¡ÍêÁË£¬¾Í¼ÌÐøÏòÏÂ½øÐÐ£¬¼´¶ÁÈ¡ÁíÒ»¸ö´ÅÍ·µÄÖùÃæ
+		MOV		CL,1
+		ADD		DH,1
+		CMP		DH,2
+		JB		readloop			;Èç¹ûDH<2£¬ÔòËµÃ÷·´Ãæ´ÅÍ·»¹Ä¾ÓÐ¶ÁÈ¡Íê£¬¼ÌÐø·µ»Øµ½readloop¶ÁÈ¡£¬Èç¹û¶ÁÈ¡ÍêÁË£¬ÔòÐèÒª·µ»Øµ½ÕýÃæ´ÅÍ·£¬¶ÁÈ¡ÏÂÒ»¸öÖùÃæµÄÐÅÏ¢
+		MOV		DH,0
+		ADD		CH,1			;¶ÁÈ¡ÏÂÒ»¸öÖùÃæµÄÐÅÏ¢
+		CMP		CH,CYLS			;CYLSÊÇºê¶¨ÒåÊýÖµ10£¬Ò²¾ÍÊÇ±È½Ïµ±Ç°ÊÇ·ñ¶Áµ½ÁËµÚ10¸öÖùÃæ
+		JB		readloop		;Èç¹ûCH<10£¬ÔòËµÃ÷»¹Ã»ÓÐ¶Áµ½µÚ10¸öÖùÃæ£¬ÄÇÃ´·µ»Øµ½readloop¼ÌÐø¶ÁÈ¡
+		
+		MOV		[0x0ff0],CH		;°ÑCYLSµÄÖµ´æ´¢µ½ÄÚ´æµÄÕâ¸öÎ»ÖÃ£¬¼´°Ñ´ÅÅÌ×°ÔÚÄÚÈÝµÄ½áÊøµØÖ·¸æËßharibote.sys¡£ÌáÊ¾Ò»ÏÂ£ºÕâÒ»¶ÎÊ±×ÔÓÉÄÚ´æÇø
+		JMP		0xc200			;Ìø×ªµ½ÕæÕýµÄ²Ù×÷ÏµÍ³ÇøÈ¥Ö´ÐÐÄÇÀïµÄ³ÌÐò£¬ÒòÎª¸Ã²¿·Ö³ÌÐò±»¼ÓÔØµ½ÁËÄÚ´æµÄ0xc200£»ÕâÒ»²½ÊÇÖØÒªµÄ¼Þ½Ó£¬´ÓÆô¶¯×ªÈëµ½ÁËÕæÕýµÄ²Ù×÷ÏµÍ³³ÌÐòÖÐ
+
+;µÈÐÅÏ¢ÏÔÊ¾Íê±ÏÖ®ºó£¨Èç¹ûÃ»ÓÐÒªÏÔÊ¾µÄÐÅÏ¢£¬ÔòÖ±½ÓÌøµ½ÕâÀïÊ¹CPUµÈ´ý£©
+fin:
+		HLT						; ÈÃCPUÍ£Ö¹£¬µÈ´ýÖ¸Áî
+		JMP		fin				; ÎÞÏÞÑ­»·
+		
+error:
+		MOV		SI,msg
+		
+		
+;ÕâÒ»¶Î´úÂëÊÇÎªÁËÒÔÒ»¶¨¸ñÊ½ÏÔÊ¾ÐÅÏ¢£¬day3ÖÐÈç¹ûÒ»ÇÐÔËÐÐÕý³£µÄ»°£¬¾Í²»ÐèÒªputloopÕâ²¿·Ö´úÂëÁËÆäÊµ
+putloop:
+		MOV		AL,[SI]
+		ADD		SI,1			; SI¼Ó1
+		CMP		AL,0
+		JE		fin
+		MOV		AH,0x0e			; ÏÔÊ¾Ò»¸öÎÄ×Ö
+		MOV		BX,15			; Ö¸¶¨×Ö·ûÑÕÉ«
+		INT		0x10			; µ÷ÓÃÏÔ¿¨BIOS
+		JMP		putloop
+
+		
+;ÐÅÏ¢ÏÔÊ¾²¿·Ö£¬ÔÚday3ÖÐ²»ÔÙÏÔÊ¾hello world£¬¶øÊÇµ±³ÌÐò³öÏÖ´íÎóµÄÊ±ºòÏÔÊ¾load error£¬³ÌÐòÕýÈ·µÄÊ±ºò²»ÏÔÊ¾ÐÅÏ¢
+msg:
+		DB		0x0a, 0x0a		; 2¸ö»»ÐÐ
+		DB		"load error"    ;ÆÁÄ»ÉÏÒªÏÔÊ¾µÄÐÅÏ¢
+		DB		0x0a			; »»ÐÐ
+		DB		0
+
+		RESB	0x7dfe-$		; ÖØ¸´Ìî³ä0Ö±µ½0x7dfeÎ»ÖÃµÄÄÚ´æ£¬-$´ú±íµ±Ç°Î»ÖÃµÄÄÚ´æÎ»ÖÃ
+
+		DB		0x55, 0xaa      ;Ö»ÓÐÔÚÆô¶¯ÇøµÄ×îºóÒ»¸ö×Ö½ÚÐ´Èë0x55aa£¬bios²Å»áÈÏÎªÕâÊÇÆô¶¯ÅÌ
